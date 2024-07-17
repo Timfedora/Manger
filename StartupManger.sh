@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 clear
 
@@ -10,30 +10,69 @@ echo
 echo "Enter your laptop's password"
 sudo -v  # Prompt for sudo password and keep alive throughout script
 
-# Check if script is running as root
-if [ "$EUID" -ne 0 ]; then
-    echo "Please run this script with sudo."
-    exit 1
-fi
+detect_distro() {
+    if [ -f /etc/os-release ]; then
+        . /etc/os-release
+        OS=$NAME
+    elif [ -f /etc/lsb-release ]; then
+        . /etc/lsb-release
+        OS=$DISTRIB_ID
+    elif [ -f /etc/debian_version ]; then
+        OS="Debian"
+    elif [ -f /etc/redhat-release ]; then
+        OS=$(cat /etc/redhat-release)
+    else
+        OS=$(uname -s)
+    fi
+}
 
-# Install required packages
-echo "Installing bpytop, ranger, and tilix..."
-sudo dnf install bpytop ranger tilix -y
+install_packages() {
+    detect_distro
 
-# Check installation status
-if [ $? -ne 0 ]; then
-    echo "Failed to install one or more packages. Exiting."
-    exit 1
-fi
+    case "$OS" in
+        "Ubuntu" | "Debian")
+            sudo apt update
+            sudo apt install -y bpytop tilix ranger pv
+            ;;
+        "Fedora")
+            sudo dnf update
+            sudo dnf install -y bpytop tilix ranger pv
+            ;;
+        "Arch Linux")
+            sudo pacman -Syu --noconfirm
+            sudo pacman -S --noconfirm bpytop tilix ranger pv
+            ;;
+        "CentOS Linux" | *"CentOS"*)
+            if command -v dnf &>/dev/null; then
+                sudo dnf update
+                sudo dnf install -y bpytop tilix ranger pv
+            else
+                sudo yum update
+                sudo yum install -y bpytop tilix ranger pv
+            fi
+            ;;
+        "openSUSE Leap")
+            sudo zypper refresh
+            sudo zypper install -y bpytop tilix ranger pv
+            ;;
+        *)
+            echo "Unsupported Linux distribution: $OS"
+            exit 1
+            ;;
+    esac
+}
 
-# Set executable permissions
+install_packages
+
 echo "Setting executable permissions for scripts..."
-chmod +x Manger.sh
-chmod +x Mounting.sh
-chmod +x DD.sh
-chmod +x CD-drive.sh
-chmod +x Eject.sh
-chmod +x Decompress.sh
+for script in Manger.sh Mounting.sh DD.sh CD-drive.sh Eject.sh Decompress.sh; 
+do
+    if [ -f "$script" ]; then
+        chmod +x "$script"
+    else
+        echo "Warning: $script not found."
+    fi
+done
 
 echo "Setup completed successfully."
 
