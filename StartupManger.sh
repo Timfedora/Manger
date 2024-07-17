@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 clear
 
@@ -13,14 +13,18 @@ sudo -v  # Prompt for sudo password and keep alive throughout script
 detect_distro() {
     if [ -f /etc/os-release ]; then
         . /etc/os-release
-        OS=$NAME
+        OS=$ID
     elif [ -f /etc/lsb-release ]; then
         . /etc/lsb-release
         OS=$DISTRIB_ID
     elif [ -f /etc/debian_version ]; then
-        OS="Debian"
+        OS="debian"
     elif [ -f /etc/redhat-release ]; then
-        OS=$(cat /etc/redhat-release)
+        if grep -qi "fedora" /etc/redhat-release; then
+            OS="fedora"
+        else
+            OS="centos"
+        fi
     else
         OS=$(uname -s)
     fi
@@ -30,19 +34,19 @@ install_packages() {
     detect_distro
 
     case "$OS" in
-        "Ubuntu" | "Debian")
+        "ubuntu" | "debian")
             sudo apt update
             sudo apt install -y bpytop tilix ranger pv
             ;;
-        "Fedora")
+        "fedora")
             sudo dnf update
             sudo dnf install -y bpytop tilix ranger pv
             ;;
-        "Arch Linux")
+        "arch")
             sudo pacman -Syu --noconfirm
             sudo pacman -S --noconfirm bpytop tilix ranger pv
             ;;
-        "CentOS Linux" | *"CentOS"*)
+        "centos" | *"centos"*)
             if command -v dnf &>/dev/null; then
                 sudo dnf update
                 sudo dnf install -y bpytop tilix ranger pv
@@ -51,7 +55,7 @@ install_packages() {
                 sudo yum install -y bpytop tilix ranger pv
             fi
             ;;
-        "openSUSE Leap")
+        "opensuse-leap")
             sudo zypper refresh
             sudo zypper install -y bpytop tilix ranger pv
             ;;
@@ -75,6 +79,7 @@ do
 done
 
 echo "Setup completed successfully."
+
 
 
 
