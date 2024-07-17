@@ -22,6 +22,7 @@ Ensure you have the necessary permissions to install these packages.
    ```sh
    git clone https://github.com/Timfedora/Manger.git
 ```sh
+cd Manger
 chmod +x StartupManger.sh
 ./StartupManger.sh
 ./Manger.sh
