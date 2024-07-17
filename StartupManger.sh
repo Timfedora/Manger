@@ -82,7 +82,7 @@ echo "Setup completed successfully."
 echo 
 echo
 echo
-echo " You can now start the Manger script by doing ./Manger.sh
+echo "You can now start the Manger script by doing ./Manger.sh"
 
 
 
