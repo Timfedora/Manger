@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Function to decompress a single file
+# Function to decompress a single file with progress
 decompress_file() {
     local file="$1"
     case $file in
@@ -8,16 +8,16 @@ decompress_file() {
             unzip "$file" -d "${file%.zip}"
             ;;
         *.tar.gz | *.tgz)
-            tar -xzf "$file"
+            pv "$file" | tar -xz
             ;;
         *.tar.bz2 | *.tbz2)
-            tar -xjf "$file"
+            pv "$file" | tar -xj
             ;;
         *.tar.xz | *.txz)
-            tar -xf "$file"
+            pv "$file" | tar -xJ
             ;;
         *.xz)
-            unxz "$file"
+            pv "$file" | unxz
             ;;
         *)
             echo "Unsupported file format: $file"
@@ -25,7 +25,7 @@ decompress_file() {
     esac
 }
 
-# Function to decompress files in a directory
+# Function to decompress files in a directory with progress
 decompress_files_in_directory() {
     local directory="$1"
     cd "$directory" || { echo "Error: Directory '$directory' does not exist."; exit 1; }
