@@ -5,14 +5,23 @@ A script for managing drives, files, resources, and more.
 ## Requirements
 
 - Git
+### Supported Distros
+- Pop!
+- Ubuntu
 - Fedora
-- dnf (Fedora package manager)
+- Redhat
+- Arch
+- Opensuse
+- CentOS
+- Debian
+
 
 ### Additional Software
 
 - `bpytop`
 - `tilix`
 - `ranger`
+- `pv`
 
 Ensure you have the necessary permissions to install these packages.
 
