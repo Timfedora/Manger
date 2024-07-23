@@ -13,12 +13,29 @@ sudo -v  # Prompt for sudo password and keep alive throughout script
 detect_distro() {
     if [ -f /etc/os-release ]; then
         . /etc/os-release
-        OS=$ID
-    elif [ -f /etc/lsb-release ]; then
-        . /etc/lsb-release
-        OS=$DISTRIB_ID
-    elif [ -f /etc/debian_version ]; then
-        OS="debian"
+        case $ID in
+            ubuntu|pop)
+                OS="ubuntu"
+                ;;
+            debian)
+                OS="debian"
+                ;;
+            fedora)
+                OS="fedora"
+                ;;
+            arch)
+                OS="arch"
+                ;;
+            centos|rhel)
+                OS="centos"
+                ;;
+            opensuse-leap)
+                OS="opensuse-leap"
+                ;;
+            *)
+                OS=$(uname -s)
+                ;;
+        esac
     elif [ -f /etc/redhat-release ]; then
         if grep -qi "fedora" /etc/redhat-release; then
             OS="fedora"
@@ -34,7 +51,7 @@ install_packages() {
     detect_distro
 
     case "$OS" in
-        "ubuntu" | "debian")
+        "ubuntu" | "debian" | "pop")
             sudo apt update
             sudo apt install -y bpytop tilix ranger pv
             ;;
@@ -80,10 +97,4 @@ done
 
 echo "Setup completed successfully."
 echo 
-echo
-echo
-echo "You can now start the Manger script by doing ./Manger.sh"
-
-
-
-
+echo "You can now start the Manager script by running ./Manger.sh"
