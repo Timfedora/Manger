@@ -40,7 +40,7 @@ Ensure you have the necessary permissions to install these packages.
 
 **Install**:
 
-1.     git clone https://github.com/Timfedora/Distro-Finder.git
-2.     cd Distro-Finder
-3.     ./Distro-Finder.sh
+1.     git clone https://github.com/Timfedora/Manger.git
+2.     cd Manger
+3.     ./StartupManger.sh
 
