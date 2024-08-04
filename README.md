@@ -2,21 +2,34 @@
 
 A script for managing drives, files, resources, and more.
 
-## Requirements
+## Features
 
-- Git
-### Supported Distros
-- Pop!
+- Manages various system tasks including:
+  - File management
+  - Resource management
+  - Disk management
+  - System information
+  - Terminal management
+  - Additional utilities
+
+## Prerequisites
+
+- A Unix-like operating system (Linux).
+- Bash shell.
+- Git.
+
+## Supported Distributions
+
+- Pop!_OS
 - Ubuntu
 - Fedora
-- Redhat
-- Arch
-- Opensuse
+- Red Hat
+- Arch Linux
+- openSUSE
 - CentOS
 - Debian
 
-
-### Additional Software
+## Additional Software
 
 - `bpytop`
 - `tilix`
@@ -25,14 +38,9 @@ A script for managing drives, files, resources, and more.
 
 Ensure you have the necessary permissions to install these packages.
 
-## Installation
+**Install**:
 
-1. **Clone the repository:**
-   ```sh
-   git clone https://github.com/Timfedora/Manger.git
-```sh
-cd Manger
-chmod +x StartupManger.sh
-./StartupManger.sh
-
+1.     git clone https://github.com/Timfedora/Distro-Finder.git
+2.     cd Distro-Finder
+3.     ./Distro-Finder.sh
 
